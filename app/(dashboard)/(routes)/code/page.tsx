@@ -66,7 +66,7 @@ const CodePage = () => {
   return (
     <div>
       <Heading
-        title="Code"
+        title="Code Generation"
         description="Generate code using descriptive text."
         icon={Code}
         iconColor="text-green-700"
