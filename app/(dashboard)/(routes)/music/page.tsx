@@ -83,7 +83,7 @@ const MusicPage = () => {
                       <Input
                         className="border-0 outline-none focus-visible:ring-0 focus-visible:ring-transparent"
                         disabled={isLoading}
-                        placeholder=""
+                        placeholder="Piano music with a happy vibe"
                         {...field}
                       />
                     </FormControl>
@@ -108,7 +108,11 @@ const MusicPage = () => {
 
           {!music && !isLoading && <Empty label="No Music generated." />}
 
-          <div className="">Music</div>
+          {music && (
+            <audio controls className="w-full mt-8">
+              <source src={music} />
+            </audio>
+          )}
         </div>
       </div>
     </div>
