@@ -45,7 +45,7 @@ export const checkApiLimit = async () => {
   });
 
   if (userApiLimit) {
-    if (userApiLimit.count > MAX_FREE_COUNTS) {
+    if (userApiLimit.count >= MAX_FREE_COUNTS) {
       return false;
     } else {
       return true;
@@ -53,4 +53,20 @@ export const checkApiLimit = async () => {
   } else {
     return true;
   }
+};
+
+export const getApiLimitCount = async () => {
+  const { userId } = auth();
+
+  if (!userId) return;
+
+  const userApiLimit = await prisma.userApiLimit.findUnique({
+    where: {
+      userId,
+    },
+  });
+
+  if (userApiLimit) return userApiLimit.count;
+
+  return 0;
 };
