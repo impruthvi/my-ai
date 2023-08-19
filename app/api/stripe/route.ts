@@ -4,11 +4,10 @@ import { NextResponse } from "next/server";
 import prismadb from "@/lib/prismadb";
 import { stripe } from "@/lib/stripe";
 import { absoluteUrl } from "@/lib/utils";
-import { json } from "stream/consumers";
 
 const settingUrl = absoluteUrl("/settings");
 
-export default async function GET() {
+export async function GET() {
   try {
     const { userId } = auth();
     const user = await currentUser();
@@ -17,9 +16,10 @@ export default async function GET() {
       return new NextResponse("unauthorized", { status: 401 });
     }
 
-    const userSubscription = await prismadb.userSubscription.findFirst({
+    const userSubscription = await prismadb.userSubscription.findUnique({
       where: { userId },
     });
+
     if (userSubscription && userSubscription.stripeCustomerId) {
       const stripeSession = await stripe.billingPortal.sessions.create({
         customer: userSubscription.stripeCustomerId,

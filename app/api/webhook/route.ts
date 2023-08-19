@@ -35,7 +35,7 @@ export async function POST(req: Request) {
     await prisma.userSubscription.create({
       data: {
         userId: session?.metadata?.userId,
-        stripeCustomerId: session.id as string,
+        stripeCustomerId: session.customer as string,
         stripeSubscriptionId: subscription.id,
         stripeCurrentPeriodEnd: new Date(
           subscription.current_period_end * 1000
@@ -64,6 +64,4 @@ export async function POST(req: Request) {
       },
     });
   }
-
-  return new NextResponse(null, { status: 200 });
 }
