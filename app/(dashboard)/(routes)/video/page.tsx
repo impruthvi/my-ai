@@ -19,6 +19,7 @@ import { Button } from "@/components/ui/button";
 import { Empty } from "@/components/empty";
 import { Loader } from "@/components/loader";
 import { useProModal } from "@/hooks/use-pro-modal";
+import { toast } from "react-hot-toast";
 
 const VideoPage = () => {
   const proModal = useProModal();
@@ -43,9 +44,11 @@ const VideoPage = () => {
 
       form.reset();
     } catch (error: any) {
-      if (error?.response?.status === 402) proModal.onOpen();
-
-      console.log(error);
+      if (error?.response?.status === 402) {
+        proModal.onOpen();
+      } else {
+        toast.error("Something went wrong.");
+      }
     } finally {
       router.refresh();
     }

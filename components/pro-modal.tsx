@@ -24,6 +24,7 @@ import {
 import { Card } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
+import { toast } from "react-hot-toast";
 
 const tools = [
   {
@@ -69,7 +70,7 @@ export const ProModal = () => {
 
       window.location.href = response.data.url;
     } catch (error) {
-      console.log(error, "STRIPE_CLIENT_ERROR");
+      toast.error("Something went wrong.");
     } finally {
       setLoading(false);
     }

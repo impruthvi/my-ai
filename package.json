@@ -35,6 +35,7 @@
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-hook-form": "^7.45.2",
+    "react-hot-toast": "^2.4.1",
     "react-markdown": "^8.0.7",
     "replicate": "^0.14.1",
     "stripe": "^13.2.0",
