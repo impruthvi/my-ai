@@ -25,7 +25,6 @@ import { Card } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 
-
 const tools = [
   {
     label: "Conversation",
@@ -111,6 +110,7 @@ export const ProModal = () => {
             size="lg"
             variant="premium"
             onClick={onSubscribe}
+            disabled={isLoading}
           >
             Upgrade
             <Zap className="w-5 h-5 ml-2 fill-white" />
