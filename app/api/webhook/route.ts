@@ -2,7 +2,7 @@ import Stripe from "stripe";
 import { headers } from "next/headers";
 import { NextResponse } from "next/server";
 
-import prisma from "@/lib/prismadb";
+import prismadb from "@/lib/prismadb";
 import { stripe } from "@/lib/stripe";
 
 export async function POST(req: Request) {
@@ -17,8 +17,8 @@ export async function POST(req: Request) {
       signature,
       process.env.STRIPE_WEBHOOK_SECRET!
     );
-  } catch (err) {
-    return new NextResponse("Invalid signature", { status: 400 });
+  } catch (error: any) {
+    return new NextResponse(`Webhook Error: ${error.message}`, { status: 400 });
   }
 
   const session = event.data.object as Stripe.Checkout.Session;
@@ -32,10 +32,10 @@ export async function POST(req: Request) {
       return new NextResponse("User id is required", { status: 400 });
     }
 
-    await prisma.userSubscription.create({
+    await prismadb.userSubscription.create({
       data: {
         userId: session?.metadata?.userId,
-        stripeCustomerId: session.customer as string,
+        stripeCustomerId: subscription.customer as string,
         stripeSubscriptionId: subscription.id,
         stripeCurrentPeriodEnd: new Date(
           subscription.current_period_end * 1000
@@ -49,12 +49,10 @@ export async function POST(req: Request) {
     const subscription = await stripe.subscriptions.retrieve(
       session.subscription as string
     );
-    if (!session?.metadata?.userId) {
-      return new NextResponse("User id is required", { status: 400 });
-    }
-    await prisma.userSubscription.update({
+
+    await prismadb.userSubscription.update({
       where: {
-        stripeCustomerId: session.id as string,
+        stripeSubscriptionId: subscription.id,
       },
       data: {
         stripePriceId: subscription.items.data[0].price.id,
@@ -64,4 +62,6 @@ export async function POST(req: Request) {
       },
     });
   }
+
+  return new NextResponse(null, { status: 200 });
 }
