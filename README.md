@@ -18,12 +18,14 @@ My AI is a web application that allows you to generate images, videos, music, te
 
 Project is created with:
 
+<!-- add stripe substiption -->
 - Next.js
 - Tailwind CSS
 - OpenAI API
 - Clrek Authentication
 - Zustand
-
+- Stripe Subscription
+- Shadcn
 <!-- Add project setup is My AI -->
 
 ## Setup
