@@ -40,7 +40,7 @@ $ npm run dev
 
 ## Demo
 
-[My AI](my-ai-impruthvi.vercel.app)
+[My AI](https://my-ai-impruthvi.vercel.app/)
 
 <!-- Add project status is My AI -->
 
