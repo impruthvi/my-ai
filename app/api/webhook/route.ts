@@ -5,15 +5,18 @@ import { NextResponse } from "next/server";
 import prismadb from "@/lib/prismadb";
 import { stripe } from "@/lib/stripe";
 
-export async function POST(req: Request) {
-  const body = await req.text();
-  const signature = req.headers.get("Stripe-Signature") as string;
+import { buffer } from "node:stream/consumers";
+
+export async function POST(req: any) {
+
+  const rawBody = await buffer(req.body);
+  const signature = headers().get("Stripe-Signature") as string;
 
   let event: Stripe.Event;
 
   try {
     event = stripe.webhooks.constructEvent(
-      body,
+      rawBody,
       signature,
       process.env.STRIPE_WEBHOOK_SECRET!
     );
